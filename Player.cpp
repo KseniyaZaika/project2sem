@@ -8,7 +8,7 @@
 Player::Player(float _x, float _y)
 {
     x = _x; y = _y;
-    player_texture.loadFromFile("D:/repos/proj2/from/textures/MapPlayer16.png");
+    player_texture.loadFromFile("textures/MapPlayer16.png");
     player_sprite.setTexture(player_texture);
     size = player_texture.getSize().y;
 

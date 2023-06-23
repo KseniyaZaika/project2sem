@@ -28,7 +28,7 @@ int main() {
     map = MapGeneration();
 
     sf::Texture t_icons;
-    t_icons.loadFromFile("D:/repos/proj2/from/textures/MapWall32.png");
+    t_icons.loadFromFile("textures/MapWall32.png");
     sf::Sprite s_icons(t_icons);
     s_icons.setTextureRect(sf::IntRect(0, 0, CELL_SIZE, CELL_SIZE));
 
