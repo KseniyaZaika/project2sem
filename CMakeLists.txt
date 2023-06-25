@@ -22,7 +22,8 @@ add_executable("${PROJECT_NAME}" main.cpp
 				Player.cpp
 				Player.h
 				Tools.h
-
+				Map.h
+				Map.cpp
 )
 
 target_link_libraries("${PROJECT_NAME}" optimized sfml-graphics-s

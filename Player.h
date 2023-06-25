@@ -30,5 +30,4 @@ public:
     void drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map);
 
     void draw(sf::RenderWindow& i_window);
-    
 };

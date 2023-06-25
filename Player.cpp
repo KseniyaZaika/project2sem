@@ -14,7 +14,7 @@ Player::Player(float _x, float _y)
 
     //////спрайты для 2д карты
     ////sf::Texture t_icons;
-    ////t_icons.loadFromFile("D:/repos/proj2/from/textures/MapWall32.png");
+    ////t_icons.loadFromFile("textures/MapWall32.png");
     ////sf::Sprite s_icons(t_icons);
     ////s_icons.setTextureRect(sf::IntRect(0, 0, CELL_SIZE, CELL_SIZE));
 
@@ -92,27 +92,25 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
 }
 
 
-// хз почему но если я пробую вынести это из мейна то там хуета какая-то получается, вроде как в дальнейшем рендер этой карты не понадобится,(тк она скорее нужна для отладки коллизий
-//  со 
-// наверное это и не нужно просто оставлю так
+void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map)  
+{
+    sf::Texture t_icons;
+    t_icons.loadFromFile("textures/MapWall32.png");
+    sf::Sprite s_icons(t_icons);
+    s_icons.setTextureRect(sf::IntRect(0, 0, CELL_SIZE, CELL_SIZE));
 
-
-//void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map)  
-//{
-//    //i_window.clear(sf::Color::Black);
-//    for (unsigned short i = 0; i < MAP_WIDTH; i++)
-//    {
-//        for (unsigned short j = 0; j < MAP_HEIGHT; j++)
-//        {
-//            if (map[i][j] == Cell::Wall)
-//            {
-//                s_icons.setPosition(i * CELL_SIZE, j * CELL_SIZE);
-//                i_window.draw(s_icons);
-//            }
-//        }
-//    }
-//    i_window.display();
-//}
+    for (unsigned short i = 0; i < MAP_WIDTH; i++)
+    {
+        for (unsigned short j = 0; j < MAP_HEIGHT; j++)
+        {
+            if (map[i][j] == Cell::Wall)
+            {
+                s_icons.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+                i_window.draw(s_icons);
+            }
+        }
+    }
+}
 
 void Player::draw(sf::RenderWindow& i_window)
 {
@@ -126,4 +124,51 @@ void Player::draw(sf::RenderWindow& i_window)
     i_window.draw(player_sprite);
 }
 
-
+//void Player::raycasting(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map, float player_x, float player_y, float player_direction, float fov, int ray_count)
+//{
+//    float ray_angle = player_direction - fov / 2; // Угол первого луча
+//
+//    float angle_increment = fov / ray_count; // Инкремент угла между лучами
+//
+//    for (int ray_index = 0; ray_index < ray_count; ray_index++)
+//    {
+//        // Переводим угол луча из градусов в радианы
+//        float angle_rad = DegToRad(ray_angle);
+//
+//        float ray_x = player_x; // Начальные координаты луча
+//        float ray_y = player_y;
+//
+//        // Шаг, с которым луч двигается по оси X и Y
+//        float step_x = cos(angle_rad);
+//        float step_y = sin(angle_rad);
+//
+//        bool hit_wall = false; // Флаг, указывающий на столкновение с препятствием
+//
+//        // Пока луч не столкнется с препятствием или не выйдет за пределы карты
+//        while (!hit_wall && ray_x >= 0 && ray_y >= 0 && ray_x < MAP_WIDTH && ray_y < MAP_HEIGHT)
+//        {
+//            // Перемещаем луч на шаг
+//            ray_x += step_x;
+//            ray_y += step_y;
+//
+//            // Проверяем, есть ли столкновение с препятствием
+//            if (i_map[static_cast<int>(ray_x)][static_cast<int>(ray_y)] == Cell::Wall)
+//            {
+//                hit_wall = true;
+//            }
+//        }
+//
+//        // Отображаем результаты луча, например, рисуем стены на экране
+//        if (hit_wall)
+//        {
+//            // Расстояние от игрока до точки столкновения
+//            float distance = sqrt((ray_x - player_x) * (ray_x - player_x) + (ray_y - player_y) * (ray_y - player_y));
+//
+//            // Рисуем стены на экране, используя полученное расстояние
+//            drawWall(ray_index, distance);
+//        }
+//
+//        // Увеличиваем угол для следующего луча
+//        ray_angle += angle_increment;
+//    }
+//}
