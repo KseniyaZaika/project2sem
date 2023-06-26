@@ -8,7 +8,7 @@
 Player::Player(float _x, float _y)
 {
     x = _x; y = _y;
-    player_texture.loadFromFile("D:/repos/proj2/from/textures/MapPlayer16.png");
+    player_texture.loadFromFile("textures/MapPlayer16.png");
     player_sprite.setTexture(player_texture);
     size = player_texture.getSize().y;
 
@@ -142,27 +142,70 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
     
 }
 
-void Player::draw(sf::RenderWindow& i_window)
+void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map)
 {
+
     float frame_angle = 360.f / (player_texture.getSize().x / size);
     float shifted_direction = fmod(360 + fmod(direction + 0.5f * frame_angle, 360), 360);
 
     player_sprite.setPosition(x, y);
     player_sprite.setTextureRect(sf::IntRect(size * floor(shifted_direction / frame_angle), 0, size, size));
-    
     i_window.draw(player_sprite);
+
+    sf::VertexArray fov_visualisation(sf::TriangleFan, 1 + RAYS_AMOUNT);
+    fov_visualisation[0].position = sf::Vector2f( x + 3, y + 3  );
 
     for (int i = 0; i < RAYS_AMOUNT; i++)
     {
-        temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
-        i_window.draw(temp_c[i]);
+        //temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
 
-       // std::cout << rays_position[i][0] << " " << rays_position[i][1]  << " " << rays_position[i][2] << std::endl;
+        fov_visualisation[1 + i].position = sf::Vector2f(rays_out[i][0], rays_out[i][1]);
+        //i_window.draw(temp_c[i]);
+        i_window.draw(fov_visualisation);
+
+        // std::cout << rays_position[i][0] << " " << rays_position[i][1]  << " " << rays_position[i][2] << std::endl;
     }
-   // i_window.draw(temp_c[0]);
 
-   
+
+
+    sf::Texture t_icons;
+    t_icons.loadFromFile("textures/MapWall32.png");
+    sf::Sprite s_icons(t_icons);
+    s_icons.setTextureRect(sf::IntRect(0, 0, CELL_SIZE, CELL_SIZE));
+    for (unsigned short i = 0; i < MAP_WIDTH; i++)
+    {
+        for (unsigned short j = 0; j < MAP_HEIGHT; j++)
+        {
+            if (map[i][j] == Cell::Wall)
+            {
+                s_icons.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+                i_window.draw(s_icons);
+            }
+        }
+    }
 }
+
+//void Player::draw(sf::RenderWindow& i_window)
+//{
+//    float frame_angle = 360.f / (player_texture.getSize().x / size);
+//    float shifted_direction = fmod(360 + fmod(direction + 0.5f * frame_angle, 360), 360);
+//
+//    player_sprite.setPosition(x, y);
+//    player_sprite.setTextureRect(sf::IntRect(size * floor(shifted_direction / frame_angle), 0, size, size));
+//    
+//    i_window.draw(player_sprite);
+//
+//    for (int i = 0; i < RAYS_AMOUNT; i++)
+//    {
+//        temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
+//        i_window.draw(temp_c[i]);
+//
+//       // std::cout << rays_position[i][0] << " " << rays_position[i][1]  << " " << rays_position[i][2] << std::endl;
+//    }
+//   // i_window.draw(temp_c[0]);
+//
+//   
+//}
 
 void Player::ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map)
 {
@@ -201,7 +244,7 @@ void Player::ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDT
 
         }
         float distance = sqrt((ray_x - x) * (ray_x - x) + (ray_y - y) * (ray_y - y));
-        // это ТОЧНО не теорема пифагора!!!!!!!!!!!!!
+        // это ТОЧНО не теорема пифагора!!!!!!!!!!!!! ашалеть, а что же это тогда
        
         rays_out[i][2] = distance; ///потом добавить четвертвую размерность для высоты
         rays_out[i][0] = ray_x;

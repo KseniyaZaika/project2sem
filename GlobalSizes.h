@@ -5,6 +5,9 @@ constexpr float PI = 3.141592653589793116f;
 constexpr unsigned short SCREEN_HEIGHT = 768;
 constexpr unsigned short SCREEN_WIDTH = 1280;
 
+
+constexpr unsigned char MAP_CELL_SIZE = 8;
+constexpr unsigned char MAP_GRID_CELL_SIZE = 16;
 constexpr unsigned char MAP_HEIGHT = 24; //клетки поля
 constexpr unsigned char MAP_WIDTH = 40;
 
@@ -15,10 +18,10 @@ constexpr unsigned short MOVEMENT_SPEED = 2;
 
 constexpr unsigned short RADIUS = 3;
 
-constexpr unsigned short RENDER_DISTANCE = 20 * CELL_SIZE;
+constexpr unsigned short RENDER_DISTANCE = 10 * CELL_SIZE;
 
 constexpr unsigned short FOV = 90; // поле зрения
-constexpr unsigned short RAYS_AMOUNT = 180;
+constexpr unsigned short RAYS_AMOUNT = 100;
 
 enum Cell
 {

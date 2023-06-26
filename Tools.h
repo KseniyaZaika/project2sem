@@ -39,10 +39,6 @@ bool BelongingInterval(type min, type max, type num, float error = 0);
 //sf::Color CorrectLightness(sf::Color color, int delta);
 
 
-/// 
-/// 
-
-
 
 sf::Vector2f GetCursorPosition(sf::RenderWindow& window)
 {

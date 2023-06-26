@@ -13,6 +13,7 @@ class Player //
     float x;
     float y;
     float direction = 0;
+    float direction_vertical = 0;
 
     sf::Sprite player_sprite;
     sf::Texture player_texture;
@@ -38,7 +39,7 @@ public:
     void update(const sf::RenderWindow& i_window, const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map);
 
     //отрисовка 2д карты
-    //void drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map);
+    void drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map);
 
     void draw(sf::RenderWindow& i_window);
     
