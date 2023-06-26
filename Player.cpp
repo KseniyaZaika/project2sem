@@ -153,19 +153,17 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
     i_window.draw(player_sprite);
 
     sf::VertexArray fov_visualisation(sf::TriangleFan, 1 + RAYS_AMOUNT);
-    fov_visualisation[0].position = sf::Vector2f( x + 3, y + 3  );
+    fov_visualisation[0].position = sf::Vector2f(x + size * 0.5f, y + size * 0.5f);
 
     for (int i = 0; i < RAYS_AMOUNT; i++)
     {
         //temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
-
-        fov_visualisation[1 + i].position = sf::Vector2f(rays_out[i][0], rays_out[i][1]);
         //i_window.draw(temp_c[i]);
-        i_window.draw(fov_visualisation);
-
-        // std::cout << rays_position[i][0] << " " << rays_position[i][1]  << " " << rays_position[i][2] << std::endl;
+        //float ray_direction = GetDegrees(direction + FOV * (floor(0.5f * RAYS_AMOUNT) - 1 - i) / (RAYS_AMOUNT - 1));
+        fov_visualisation[1 + i].position = sf::Vector2f(rays_out[i][0], rays_out[i][1]);
+        
     }
-
+    i_window.draw(fov_visualisation);
 
 
     sf::Texture t_icons;
