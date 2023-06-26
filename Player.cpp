@@ -157,8 +157,6 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
 
     for (int i = 0; i < RAYS_AMOUNT; i++)
     {
-        //temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
-        //i_window.draw(temp_c[i]);
         //float ray_direction = GetDegrees(direction + FOV * (floor(0.5f * RAYS_AMOUNT) - 1 - i) / (RAYS_AMOUNT - 1));
         fov_visualisation[1 + i].position = sf::Vector2f(rays_out[i][0], rays_out[i][1]);
         
@@ -183,27 +181,33 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
     }
 }
 
-//void Player::draw(sf::RenderWindow& i_window)
-//{
-//    float frame_angle = 360.f / (player_texture.getSize().x / size);
-//    float shifted_direction = fmod(360 + fmod(direction + 0.5f * frame_angle, 360), 360);
-//
-//    player_sprite.setPosition(x, y);
-//    player_sprite.setTextureRect(sf::IntRect(size * floor(shifted_direction / frame_angle), 0, size, size));
-//    
-//    i_window.draw(player_sprite);
-//
-//    for (int i = 0; i < RAYS_AMOUNT; i++)
-//    {
-//        temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
-//        i_window.draw(temp_c[i]);
-//
-//       // std::cout << rays_position[i][0] << " " << rays_position[i][1]  << " " << rays_position[i][2] << std::endl;
-//    }
-//   // i_window.draw(temp_c[0]);
-//
-//   
-//}
+void Player::draw(sf::RenderWindow& i_window)
+{
+    float projection_distance = 0.5f * CELL_SIZE / tan(DegToRad(0.5f * FOV_VERTICAL));
+    float floor_level = round(0.5f * SCREEN_HEIGHT * (1 + tan(DegToRad(direction_vertical)) / tan(DegToRad(1 + FOV_VERTICAL))));
+
+    //пол
+    sf::RectangleShape floor_shape(sf::Vector2f(SCREEN_WIDTH, 0.5f * SCREEN_HEIGHT));
+    floor_shape.setFillColor(sf::Color(146, 146, 100));
+    floor_shape.setPosition(0, 0.5f * SCREEN_HEIGHT);
+    i_window.draw(floor_shape);
+
+    for (unsigned short i = 0; i < SCREEN_WIDTH; i++)
+    {
+        //устранение фишай
+       // float ray_direction = FOV * (floor(0.5f * SCREEN_WIDTH) - i) / (SCREEN_WIDTH - 1);
+        //float ray_projection_posittion = 0.5f * tan(DegToRad(rays_out[i][0])) / tan(DegToRad(0.5f * FOV));
+
+        //short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_posittion)));
+        float shape_height = round(SCREEN_HEIGHT * projection_distance / rays_out[i][2]);
+
+        sf::RectangleShape shape(sf::Vector2f(1, shape_height));
+        shape.setFillColor(sf::Color(0, 255 * (1 - rays_out[i][2] / RENDER_DISTANCE), 0));
+        shape.setPosition(i, 0.5f * (SCREEN_HEIGHT - shape_height));
+
+        i_window.draw(shape);
+    }
+}
 
 void Player::ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map)
 {

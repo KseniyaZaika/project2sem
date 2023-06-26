@@ -20,6 +20,7 @@ int main() {
     window.setVerticalSyncEnabled(true);
    //window.setMouseCursorVisible(0);
     window.setView(sf::View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)));
+    window.setFramerateLimit(60);
 
     Player pl(50, 50);
 
@@ -43,7 +44,7 @@ int main() {
                 window.close();
         }
 
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color(73,255,255));
         
         ////for (int i = 0; i < RAYS_AMOUNT; i++)
         ////{
@@ -54,9 +55,10 @@ int main() {
         ////i_window.draw(temp_c[0]);
         //window.draw(pl.temp_c[0]);
 
+
         pl.drawMap(window, map);
         pl.update(window, map);
-        //pl.draw(window);
+        pl.draw(window);
         
         
         window.display();

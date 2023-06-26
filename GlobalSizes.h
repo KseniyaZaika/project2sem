@@ -2,7 +2,7 @@
 
 constexpr float PI = 3.141592653589793116f;
 
-constexpr unsigned short SCREEN_HEIGHT = 768;
+constexpr unsigned short SCREEN_HEIGHT = 720;
 constexpr unsigned short SCREEN_WIDTH = 1280;
 
 
@@ -18,10 +18,11 @@ constexpr unsigned short MOVEMENT_SPEED = 2;
 
 constexpr unsigned short RADIUS = 3;
 
-constexpr unsigned short RENDER_DISTANCE = 10 * CELL_SIZE;
+constexpr unsigned short RENDER_DISTANCE = 20 * CELL_SIZE;
 
-constexpr unsigned short FOV = 90; // поле зрения
-constexpr unsigned short RAYS_AMOUNT = 100;
+constexpr unsigned short FOV = 90;
+constexpr unsigned short FOV_VERTICAL = 58.75f;
+constexpr unsigned short RAYS_AMOUNT = 1280;
 
 enum Cell
 {
