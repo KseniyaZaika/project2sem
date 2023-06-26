@@ -184,6 +184,7 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
 void Player::draw(sf::RenderWindow& i_window)
 {
     float projection_distance = 0.5f * CELL_SIZE / tan(DegToRad(0.5f * FOV_VERTICAL));
+    //закончил на этом моменте
     float floor_level = round(0.5f * SCREEN_HEIGHT * (1 + tan(DegToRad(direction_vertical)) / tan(DegToRad(1 + FOV_VERTICAL))));
 
     //пол
