@@ -56,7 +56,7 @@ int main() {
         //window.draw(pl.temp_c[0]);
 
 
-        pl.drawMap(window, map);
+        //pl.drawMap(window, map);
         pl.update(window, map);
         pl.draw(window);
         

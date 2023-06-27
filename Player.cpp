@@ -34,6 +34,8 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
     float move_x = 0;
     float move_y = 0;
     float acceleration = 1.5f;
+    float rotation_x = 0;
+    float rotation_y = 0;
     // Right-Left
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
     {
@@ -43,6 +45,17 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
     {
         direction -= ROTATION_SPEED;
     }
+
+    /*unsigned short window_center_x = static_cast<unsigned short>(round(0.5f * i_window.getSize().x));
+    unsigned short window_center_y = static_cast<unsigned short>(round(0.5f * i_window.getSize().y));
+
+    rotation_x = FOV * (window_center_x - sf::Mouse::getPosition(i_window).x) / i_window.getSize().x;
+    rotation_y = FOV_VERTICAL * (window_center_y - sf::Mouse::getPosition(i_window).y) / i_window.getSize().y;
+
+    direction = GetDegrees(direction + rotation_x);
+    direction_vertical = std::clamp<float>(direction + rotation_y, -89, 89);
+
+    sf::Mouse::setPosition(sf::Vector2i(window_center_x, window_center_y), i_window);*/
 
     //WASD
     direction = GetDegrees(direction);
@@ -157,9 +170,7 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
 
     for (int i = 0; i < RAYS_AMOUNT; i++)
     {
-        //float ray_direction = GetDegrees(direction + FOV * (floor(0.5f * RAYS_AMOUNT) - 1 - i) / (RAYS_AMOUNT - 1));
         fov_visualisation[1 + i].position = sf::Vector2f(rays_out[i][0], rays_out[i][1]);
-        
     }
     i_window.draw(fov_visualisation);
 
@@ -183,23 +194,22 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
 
 void Player::draw(sf::RenderWindow& i_window)
 {
-    float projection_distance = 0.5f * CELL_SIZE / tan(DegToRad(0.5f * FOV_VERTICAL));
-    //закончил на этом моменте
-    float floor_level = round(0.5f * SCREEN_HEIGHT * (1 + tan(DegToRad(direction_vertical)) / tan(DegToRad(1 + FOV_VERTICAL))));
+    float projection_distance = 0.5f * CELL_SIZE / tan(DegToRad(0.5f * FOV_VERTICAL)); 
 
     //пол
-    sf::RectangleShape floor_shape(sf::Vector2f(SCREEN_WIDTH, 0.5f * SCREEN_HEIGHT));
+    float floor_level = round(0.5f * SCREEN_HEIGHT * (1 + tan(DegToRad(direction_vertical)) / tan(DegToRad(1 + FOV_VERTICAL))));
+    sf::RectangleShape floor_shape(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT - floor_level));
     floor_shape.setFillColor(sf::Color(146, 146, 100));
-    floor_shape.setPosition(0, 0.5f * SCREEN_HEIGHT);
+    floor_shape.setPosition(0, floor_level);
     i_window.draw(floor_shape);
 
     for (unsigned short i = 0; i < SCREEN_WIDTH; i++)
     {
         //устранение фишай
-       // float ray_direction = FOV * (floor(0.5f * SCREEN_WIDTH) - i) / (SCREEN_WIDTH - 1);
-        //float ray_projection_posittion = 0.5f * tan(DegToRad(rays_out[i][0])) / tan(DegToRad(0.5f * FOV));
-
-        //short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_posittion)));
+        /*float ray_direction = FOV * (floor(0.5f * SCREEN_WIDTH) - i) / (SCREEN_WIDTH - 1);
+        float ray_projection_posittion = 0.5f * tan(DegToRad(ray_direction)) / tan(DegToRad(0.5f * FOV));
+        short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_posittion)));*/
+        //
         float shape_height = round(SCREEN_HEIGHT * projection_distance / rays_out[i][2]);
 
         sf::RectangleShape shape(sf::Vector2f(1, shape_height));
@@ -214,7 +224,6 @@ void Player::ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDT
 {
     
     // Переводим угол луча из градусов в радианы
-   // std::array<std::array<float, 3>, RAYS_AMOUNT> rays_out;
 
     float angle_rad = DegToRad(direction)- PI/4;
     float angle_step = PI/(2 * RAYS_AMOUNT);
