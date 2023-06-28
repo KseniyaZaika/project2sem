@@ -1,9 +1,6 @@
 #include "Map.h"
 #include <iostream>
 
-// я не знаю почему, но если я пробую в качестве аргумента добавить игрока, то повляется ошибка о нобъявленном идентефикаторе, хотя все вроде норм с коннектом и инклудами...
-// но это можно будет просто напрямую потом добавить так что думаю что все ок
-
 
 std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> MapGeneration() // Steven& i_steven//Player& i_player
 {
@@ -22,14 +19,14 @@ std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> MapGeneration() // Steven& i
             {
                 out_map[y][x] = Cell::Wall;
             }
-           /* else if (pixel == sf::Color(255, 0, 0))
-            {
-                i_player.set_position(static_cast<float>(CELL_SIZE * y), static_cast<float>(CELL_SIZE * x));
-            }*/
-            /*else if (pixel == sf::Color(0, 0, 255))
-            {
-                i_steven.set_position(static_cast<float>(CELL_SIZE * y), static_cast<float>(CELL_SIZE * x));
-            }*/
+            /* else if (pixel == sf::Color(255, 0, 0))
+             {
+                 i_player.set_position(static_cast<float>(CELL_SIZE * y), static_cast<float>(CELL_SIZE * x));
+             }*/
+             /*else if (pixel == sf::Color(0, 0, 255))
+             {
+                 i_steven.set_position(static_cast<float>(CELL_SIZE * y), static_cast<float>(CELL_SIZE * x));
+             }*/
             else
             {
                 out_map[y][x] = Cell::Empty;
