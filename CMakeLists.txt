@@ -18,10 +18,12 @@ include_directories("inc/")
 link_directories("ext/SFML/lib/")
 
 add_executable("${PROJECT_NAME}" main.cpp
-
-
-
-
+				GlobalSizes.h
+				Player.cpp
+				Player.h
+				Tools.h
+				Map.h
+				Map.cpp
 )
 
 target_link_libraries("${PROJECT_NAME}" optimized sfml-graphics-s
@@ -43,3 +45,4 @@ target_link_libraries("${PROJECT_NAME}" optimized sfml-graphics-s
         debug sfml-system-s-d
         debug sfml-audio-s-d
         )
+file(COPY "textures" DESTINATION "/")

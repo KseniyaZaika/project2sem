@@ -7,7 +7,7 @@ std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> MapGeneration() // Steven& i
     std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> out_map{};
 
     sf::Image map_sketch;
-    map_sketch.loadFromFile("D:/repos/proj2/from/textures/MapSketch.png");
+    map_sketch.loadFromFile("textures/MapSketch.png");
 
     for (unsigned char y = 0; y < MAP_WIDTH; y++)
     {

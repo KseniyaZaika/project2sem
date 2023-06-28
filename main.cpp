@@ -16,6 +16,7 @@ int main() {
     window.setVerticalSyncEnabled(true);
     window.setMouseCursorVisible(0);
     window.setView(sf::View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)));
+    window.setFramerateLimit(60);
 
     Player pl(50, 50);
 
@@ -24,7 +25,7 @@ int main() {
     map = MapGeneration();
 
     sf::Texture t_icons;
-    t_icons.loadFromFile("D:/repos/proj2/from/textures/MapWall32.png");
+    t_icons.loadFromFile("textures/MapWall32.png");
     sf::Sprite s_icons(t_icons);
     s_icons.setTextureRect(sf::IntRect(0, 0, CELL_SIZE, CELL_SIZE));
 
@@ -41,25 +42,8 @@ int main() {
                 window.close();
         }
 
-<<<<<<< Updated upstream
-        window.clear(sf::Color::Black);
-
-        for (unsigned short i = 0; i < MAP_WIDTH; i++)
-        {
-            for (unsigned short j = 0; j < MAP_HEIGHT; j++)
-            {
-                if (map[i][j] == Cell::Wall)
-                {
-                    s_icons.setPosition(i * CELL_SIZE, j * CELL_SIZE);
-                    window.draw(s_icons);
-                }
-            }
-        }
-        
-=======
         window.clear(sf::Color(73, 255, 255));
 
->>>>>>> Stashed changes
         ////for (int i = 0; i < RAYS_AMOUNT; i++)
         ////{
         ////    pl.temp_c[i].setPosition(pl.rays_position[i][0] - RADIUS, pl.rays_position[i][1] - RADIUS);
@@ -68,7 +52,9 @@ int main() {
         ////}
         ////i_window.draw(temp_c[0]);
         //window.draw(pl.temp_c[0]);
-       // pl.drawMap(window, map);
+
+
+        //pl.drawMap(window, map);
         pl.update(window, map);
         pl.draw(window);
 
