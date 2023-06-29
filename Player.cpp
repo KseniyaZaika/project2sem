@@ -209,7 +209,7 @@ void Player::draw(sf::RenderWindow& i_window)
         /*float ray_direction = FOV * (floor(0.5f * SCREEN_WIDTH) - i) / (SCREEN_WIDTH - 1);
         float ray_projection_posittion = 0.5f * tan(DegToRad(ray_direction)) / tan(DegToRad(0.5f * FOV));
         short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_posittion)));*/
-        //
+
         float shape_height = round(SCREEN_HEIGHT * projection_distance / rays_out[i][2]);
 
         sf::RectangleShape shape(sf::Vector2f(1, shape_height));
