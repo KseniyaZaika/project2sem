@@ -13,16 +13,18 @@ constexpr unsigned char MAP_WIDTH = 40;
 
 constexpr unsigned char CELL_SIZE = 32;
 
-constexpr unsigned short ROTATION_SPEED = 2;
+constexpr unsigned short ROTATION_SPEED = 3;
 constexpr unsigned short MOVEMENT_SPEED = 2;
 
 constexpr unsigned short RADIUS = 3;
 
 constexpr unsigned short RENDER_DISTANCE = 20 * CELL_SIZE;
 
-constexpr unsigned short FOV = 90;
+constexpr unsigned short FOV = 90;// поле зрения
 constexpr unsigned short FOV_VERTICAL = 58.75f;
 constexpr unsigned short RAYS_AMOUNT = 1280;
+
+
 
 enum Cell
 {

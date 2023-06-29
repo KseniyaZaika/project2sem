@@ -9,16 +9,17 @@
 #include "GlobalSizes.h"
 #include "Player.h"
 #include "Map.h"
-
-
-// кстати потом в конце надо будет пофиксить прямые пути спрайта
-// это из симейк файла делается, но мне лень сейчас. 
+#include "log.h"
 
 int main() {
+    Log::SetLogLevel(LogLevel::DEBUG);
+    Log::SetLohPath("log.txt");
+    Log::Release("Programm start in release");
+    Log::Debug("Programm start in debug");
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "window", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
-   //window.setMouseCursorVisible(0);
+    window.setMouseCursorVisible(0);
     window.setView(sf::View(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)));
     window.setFramerateLimit(60);
 
@@ -34,7 +35,7 @@ int main() {
     s_icons.setTextureRect(sf::IntRect(0, 0, CELL_SIZE, CELL_SIZE));
 
 
-    while (window.isOpen()) 
+    while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
@@ -42,10 +43,12 @@ int main() {
 
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                window.close();
         }
 
-        window.clear(sf::Color(73,255,255));
-        
+        window.clear(sf::Color(73, 255, 255));
+
         ////for (int i = 0; i < RAYS_AMOUNT; i++)
         ////{
         ////    pl.temp_c[i].setPosition(pl.rays_position[i][0] - RADIUS, pl.rays_position[i][1] - RADIUS);
@@ -59,11 +62,12 @@ int main() {
         //pl.drawMap(window, map);
         pl.update(window, map);
         pl.draw(window);
-        
-        
+
+
         window.display();
     }
-
+    Log::Release("Programm end in release");
+    Log::Debug("Programm end in debug");
     return 0;
 
 

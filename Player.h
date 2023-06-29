@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <windows.h>
 #include <vector>
 #include <SFML\Graphics.hpp>
@@ -8,7 +8,7 @@
 #include <array>
 #include "GlobalSizes.h"
 
-class Player // 
+class Player 
 {
     float x;
     float y;
@@ -20,10 +20,10 @@ class Player //
 
     float size;
 
-    float ray_x = x + 0.5f * CELL_SIZE; // Начальные координаты луча
+    float ray_x = x + 0.5f * CELL_SIZE; // РќР°С‡Р°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ Р»СѓС‡Р°
     float ray_y = y + 0.5f * CELL_SIZE;
 
-    //спрайты для 2д карты возможно потом убрать надо будет
+    //СЃРїСЂР°Р№С‚С‹ РґР»СЏ 2Рґ РєР°СЂС‚С‹ 
     sf::Sprite s_icons;
     sf::Texture t_icons;
 
@@ -38,13 +38,13 @@ public:
     void setPosition(float _x, float _y);
     void update(const sf::RenderWindow& i_window, const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map);
 
-    //отрисовка 2д карты
-    void drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map);
+    
 
     void draw(sf::RenderWindow& i_window);
     
-    void ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map); //std::array<std::array<float, 3>, RAYS_AMOUNT>
-    
+    void ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map); 
+
+    void drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map);
     
     float getPositionX();
     float getPositionY();

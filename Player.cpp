@@ -1,4 +1,4 @@
-#include "Player.h"
+п»ї#include "Player.h"
 #include "GlobalSizes.h"
 #include "Tools.h"
 #include "Map.h"
@@ -18,8 +18,6 @@ Player::Player(float _x, float _y)
         temp_c[i].setFillColor(sf::Color(150, 0, 0));
     }
 
-  
-
 }
 
 void Player::setPosition(float _x, float _y)
@@ -34,37 +32,38 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
     float move_x = 0;
     float move_y = 0;
     float acceleration = 1.5f;
-    float rotation_x = 0;
-    float rotation_y = 0;
+    float rotation_x = 0;//horizontal
+    float rotation_y = 0;//vertical
+    
+    
     // Right-Left
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
+   /* if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
     {
         direction += ROTATION_SPEED;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
     {
         direction -= ROTATION_SPEED;
-    }
+    }*/
 
-    /*unsigned short window_center_x = static_cast<unsigned short>(round(0.5f * i_window.getSize().x));
-    unsigned short window_center_y = static_cast<unsigned short>(round(0.5f * i_window.getSize().y));
-
+  
+    float window_center_x = 0.5f * i_window.getSize().x;
+    float window_center_y = 0.5f * i_window.getSize().y;
     rotation_x = FOV * (window_center_x - sf::Mouse::getPosition(i_window).x) / i_window.getSize().x;
     rotation_y = FOV_VERTICAL * (window_center_y - sf::Mouse::getPosition(i_window).y) / i_window.getSize().y;
-
-    direction = GetDegrees(direction + rotation_x);
-    direction_vertical = std::clamp<float>(direction + rotation_y, -89, 89);
-
-    sf::Mouse::setPosition(sf::Vector2i(window_center_x, window_center_y), i_window);*/
+    direction = GetDegrees(direction - rotation_x);
+    direction_vertical = std::clamp<float>(direction_vertical + rotation_y, -89, 89);// РјР± РЅР° + РїРѕСЃРµРЅСЏС‚СЊ
+    
+    sf::Mouse::setPosition(sf::Vector2i(window_center_x, window_center_y), i_window);
 
     //WASD
     direction = GetDegrees(direction);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         move_x += MOVEMENT_SPEED * cos(DegToRad(GetDegrees(90 + direction)));
         move_y -= MOVEMENT_SPEED * sin(DegToRad(GetDegrees(90 + direction)));
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         move_x += MOVEMENT_SPEED * cos(DegToRad(GetDegrees(direction - 90)));
         move_y -= MOVEMENT_SPEED * sin(DegToRad(GetDegrees(direction - 90)));
@@ -80,12 +79,12 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
         move_y -= MOVEMENT_SPEED * sin(DegToRad(GetDegrees(direction)));
     }
 
-    direction = fmod(360 + fmod(direction, 360), 360);//fmod-остаток от деления в формате числа с плавающей точкой ( функция приведения диапазона угла)
-
-    // Проверяем, есть ли столкновение с стеной при попытке двигаться с ускорением
+    direction = fmod(360 + fmod(direction, 360), 360);//fmod-РѕСЃС‚Р°С‚РѕРє РѕС‚ РґРµР»РµРЅРёСЏ РІ С„РѕСЂРјР°С‚Рµ С‡РёСЃР»Р° СЃ РїР»Р°РІР°СЋС‰РµР№ С‚РѕС‡РєРѕР№ ( С„СѓРЅРєС†РёСЏ РїСЂРёРІРµРґРµРЅРёСЏ РґРёР°РїР°Р·РѕРЅР° СѓРіР»Р°)
+    // РџСЂРѕРІРµСЂСЏРµРј, РµСЃС‚СЊ Р»Рё СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃ СЃС‚РµРЅРѕР№ РїСЂРё РїРѕРїС‹С‚РєРµ РґРІРёРіР°С‚СЊСЃСЏ СЃ СѓСЃРєРѕСЂРµРЅРёРµРј
+     
     if (wallCollision(x + move_x * acceleration, y + move_y * acceleration, i_map) == 0)
     {
-        // Если нет столкновения, увеличиваем скорость движения с ускорением
+        // Р•СЃР»Рё РЅРµС‚ СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ, СѓРІРµР»РёС‡РёРІР°РµРј СЃРєРѕСЂРѕСЃС‚СЊ РґРІРёР¶РµРЅРёСЏ СЃ СѓСЃРєРѕСЂРµРЅРёРµРј
         move_x *= acceleration;
         move_y *= acceleration;
     }
@@ -105,59 +104,11 @@ void Player::update(const sf::RenderWindow& i_window, const std::array<std::arra
     }
 
     ray_tracing(i_map);
-    //// Переводим угол луча из градусов в радианы
-    //float angle_rad = DegToRad(direction);
-
-    //ray_x = x + 0.5f * CELL_SIZE; // Начальные координаты луча
-    //ray_y = y + 0.5f * CELL_SIZE;
-
-    //// Шаг, с которым луч двигается по оси X и Y
-    //float step_x = cos(angle_rad);
-    //float step_y = -sin(angle_rad);
-    //int steps = 0;
-    //bool hit_wall = false; // Флаг, указывающий на столкновение с препятствием
-
-    //// Пока луч не столкнется с препятствием или не выйдет за пределы карты
-    //while (!hit_wall && steps <= RENDER_DISTANCE)
-    //{
-    //    // Перемещаем луч на шаг
-    //    ray_x += step_x;
-    //    ray_y += step_y;
-    //   
-
-    //    // Проверяем, есть ли столкновение с препятствием
-    //    if (i_map[static_cast<int>(ray_x/CELL_SIZE)][static_cast<int>(ray_y/CELL_SIZE)] == Cell::Wall)
-    //    {
-    //        hit_wall = true;
-    //    }
-    //    steps += 1;
-    //    
-    //}
-   // std::cout << steps << std::endl;
-    // степом можно ограничить в будущем дальность рендера( для открытых карт чтоб он не уходил в бесконечный цикл)
-
-    ///////////
-
-    //bool wall_exists = 0;
-
-    //char cell_step_x = 0;
-    //char cell_step_y = 0;
-
-    //float ray_dirrection_x = cos(DegToRad(direction));
-    //float ray_dirrection_y = -sin(DegToRad(direction));
-
-    //float ray_length = 0;
-
-    //float ray_center_x = x + 0.5f * CELL_SIZE;
-    //float ray_center_x = x + 0.5f * CELL_SIZE;// смещение в центр спрайта
-
-
-    
+   
 }
 
 void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& map)
 {
-
     float frame_angle = 360.f / (player_texture.getSize().x / size);
     float shifted_direction = fmod(360 + fmod(direction + 0.5f * frame_angle, 360), 360);
 
@@ -173,7 +124,6 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
         fov_visualisation[1 + i].position = sf::Vector2f(rays_out[i][0], rays_out[i][1]);
     }
     i_window.draw(fov_visualisation);
-
 
     sf::Texture t_icons;
     t_icons.loadFromFile("textures/MapWall32.png");
@@ -194,9 +144,9 @@ void Player::drawMap(sf::RenderWindow& i_window, std::array<std::array<Cell, MAP
 
 void Player::draw(sf::RenderWindow& i_window)
 {
-    float projection_distance = 0.5f * CELL_SIZE / tan(DegToRad(0.5f * FOV_VERTICAL)); 
+    float projection_distance = 0.5f * CELL_SIZE / tan(DegToRad(0.5f * FOV_VERTICAL));
 
-    //пол
+    //ГЇГ®Г«
     float floor_level = round(0.5f * SCREEN_HEIGHT * (1 + tan(DegToRad(direction_vertical)) / tan(DegToRad(1 + FOV_VERTICAL))));
     sf::RectangleShape floor_shape(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT - floor_level));
     floor_shape.setFillColor(sf::Color(146, 146, 100));
@@ -205,49 +155,48 @@ void Player::draw(sf::RenderWindow& i_window)
 
     for (unsigned short i = 0; i < SCREEN_WIDTH; i++)
     {
-        //устранение фишай
-        /*float ray_direction = FOV * (floor(0.5f * SCREEN_WIDTH) - i) / (SCREEN_WIDTH - 1);
+        //ГіГ±ГІГ°Г Г­ГҐГ­ГЁГҐ ГґГЁГёГ Г©
+        float ray_direction = FOV * (floor(0.5f * SCREEN_WIDTH) - i) / (SCREEN_WIDTH - 1);
         float ray_projection_posittion = 0.5f * tan(DegToRad(ray_direction)) / tan(DegToRad(0.5f * FOV));
-        short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_posittion)));*/
+        short current_column = static_cast<short>(round(SCREEN_WIDTH * (0.5f - ray_projection_posittion)));
+        //
+        /*if (i < SCREEN_WIDTH - 1)
+        {
 
-        float shape_height = round(SCREEN_HEIGHT * projection_distance / rays_out[i][2]);
-
+        }*/
+        float shape_height = round(SCREEN_HEIGHT * projection_distance / (rays_out[i][2]*cos(DegToRad(ray_direction))));
+       
         sf::RectangleShape shape(sf::Vector2f(1, shape_height));
         shape.setFillColor(sf::Color(0, 255 * (1 - rays_out[i][2] / RENDER_DISTANCE), 0));
-        shape.setPosition(i, 0.5f * (SCREEN_HEIGHT - shape_height));
-
+        //shape.setPosition(i, 0.5f * (SCREEN_HEIGHT - shape_height));
+        shape.setPosition(i, round(floor_level - 0.5f * shape_height));
         i_window.draw(shape);
     }
 }
 
 void Player::ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& i_map)
 {
-    
-    // Переводим угол луча из градусов в радианы
 
-    float angle_rad = DegToRad(direction)- PI/4;
-    float angle_step = PI/(2 * RAYS_AMOUNT);
+   
+    float angle_rad = DegToRad(direction) - PI / 4;
+    float angle_step = PI / (2 * RAYS_AMOUNT);
 
     for (int i = 0; i < RAYS_AMOUNT; i++)
     {
-        ray_x = x + 0.5f * CELL_SIZE; // Начальные координаты луча
+        ray_x = x + 0.5f * CELL_SIZE; // РЅР°С‡Р°Р»СЊРЅС‹Рµ РєРѕРѕСЂРґ
         ray_y = y + 0.5f * CELL_SIZE;
 
-        // Шаг, с которым луч двигается по оси X и Y
+        // РЁР°Рі, СЃ РєРѕС‚РѕСЂС‹Рј Р»СѓС‡ РґРІРёРіР°РµС‚СЃСЏ РїРѕ РѕСЃРё X Рё Y
         float step_x = cos(angle_rad);
         float step_y = -sin(angle_rad);
         int steps = 0;
-        bool hit_wall = false; // Флаг, указывающий на столкновение с препятствием
-
-        // Пока луч не столкнется с препятствием или не выйдет за пределы карты
+        bool hit_wall = false; 
+       
         while (!hit_wall && steps <= RENDER_DISTANCE)
-        {
-            // Перемещаем луч на шаг
+        {          
             ray_x += step_x;
             ray_y += step_y;
 
-
-            // Проверяем, есть ли столкновение с препятствием
             if (i_map[static_cast<int>(ray_x / CELL_SIZE)][static_cast<int>(ray_y / CELL_SIZE)] == Cell::Wall)
             {
                 hit_wall = true;
@@ -256,14 +205,13 @@ void Player::ray_tracing(const std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDT
 
         }
         float distance = sqrt((ray_x - x) * (ray_x - x) + (ray_y - y) * (ray_y - y));
-        // это ТОЧНО не теорема пифагора!!!!!!!!!!!!! ашалеть, а что же это тогда
-       
-        rays_out[i][2] = distance; ///потом добавить четвертвую размерность для высоты
+
+        rays_out[i][2] = distance; ///РїРѕС‚РѕРј РґРѕР±Р°РІРёС‚СЊ С‡РµС‚РІРµСЂС‚РІСѓСЋ СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ РґР»СЏ РІС‹СЃРѕС‚С‹
         rays_out[i][0] = ray_x;
         rays_out[i][1] = ray_y;
         angle_rad += angle_step;
     }
-   
+
 }
 
 
@@ -279,3 +227,25 @@ float Player::getDirection()
 {
     return direction;
 }
+
+//void Player::draw(sf::RenderWindow& i_window)
+//{
+//    float frame_angle = 360.f / (player_texture.getSize().x / size);
+//    float shifted_direction = fmod(360 + fmod(direction + 0.5f * frame_angle, 360), 360);
+//
+//    player_sprite.setPosition(x, y);
+//    player_sprite.setTextureRect(sf::IntRect(size * floor(shifted_direction / frame_angle), 0, size, size));
+//
+//    i_window.draw(player_sprite);
+//
+//    for (int i = 0; i < RAYS_AMOUNT; i++)
+//    {
+//        temp_c[i].setPosition(rays_out[i][0] - RADIUS, rays_out[i][1] - RADIUS);
+//        i_window.draw(temp_c[i]);
+//
+//        // std::cout << rays_position[i][0] << " " << rays_position[i][1]  << " " << rays_position[i][2] << std::endl;
+//    }
+//    // i_window.draw(temp_c[0]);
+//
+//
+//}
