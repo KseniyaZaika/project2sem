@@ -9,8 +9,13 @@
 #include "GlobalSizes.h"
 #include "Player.h"
 #include "Map.h"
+#include "log.h"
 
 int main() {
+    Log::SetLogLevel(LogLevel::DEBUG);
+    Log::SetLohPath("log.txt");
+    Log::Release("Programm start in release");
+    Log::Debug("Programm start in debug");
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "window", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
@@ -61,7 +66,8 @@ int main() {
 
         window.display();
     }
-
+    Log::Release("Programm end in release");
+    Log::Debug("Programm end in debug");
     return 0;
 
 

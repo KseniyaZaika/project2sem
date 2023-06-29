@@ -24,6 +24,7 @@ add_executable("${PROJECT_NAME}" main.cpp
 				Tools.h
 				Map.h
 				Map.cpp
+				log.h
 )
 
 target_link_libraries("${PROJECT_NAME}" optimized sfml-graphics-s
